@@ -9,6 +9,10 @@ can login from here via `ssh root@162.243.205.126`
 installed codex cli (v0.139) directly onto that box via
 `curl -fsSL https://chatgpt.com/codex/install.sh | sh`
 it already had git
+created a repo-scoped github deploy key with write access for `mlipman/personal`
+on the box, the key files are `/root/.ssh/github_personal` and `/root/.ssh/github_personal.pub`
+ssh config points github.com at that key, github.com is in known_hosts, and the repo is cloned at `/root/personal`
+fresh box version: create a new ed25519 key, add the public key as a write deploy key on this repo, add github.com to known_hosts, add the ssh config entry, then clone `git@github.com:mlipman/personal.git`
 
 next steps:
 
