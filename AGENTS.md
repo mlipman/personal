@@ -27,6 +27,3 @@ GitHub API tools are not necessary and in fact not available or for branch publi
 4. Push with `git push -u origin <branch>`.
 5. Verify the remote branch and commit with `git ls-remote --heads origin refs/heads/<branch>`.
 
-Do not treat missing GitHub-specific tools as a blocker when `git` and a writable remote are available. GitHub-specific tooling is needed only for GitHub API operations such as opening pull requests, managing issues, or inspecting checks that ordinary Git cannot access.
-
-If the workspace's `.git` directory is read-only, use a writable temporary clone, copy only the validated task files into it, create the branch and commit there, push through the configured remote, and verify the remote ref. Do not alter or discard the original workspace's unrelated changes.
