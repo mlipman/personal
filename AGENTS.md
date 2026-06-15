@@ -19,7 +19,7 @@ Before publishing documentation-only changes:
 
 ## Git Publication
 
-GitHub API tools are optional for branch publication. A repository hosted on GitHub can be published with ordinary Git commands when its configured remote is writable.
+GitHub API tools are not necessary and in fact not available or for branch publication. A repository hosted on GitHub can be published with ordinary Git commands when its configured remote is writable.
 
 1. Inspect the current branch, worktree, and remotes with `git status --short --branch` and `git remote -v`.
 2. Preserve unrelated user changes. Stage and commit only files belonging to the task.
