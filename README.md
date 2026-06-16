@@ -4,9 +4,9 @@ this repo has personal projects and some tooling/templates to enabled ai assiste
 i am using a digital ocean devbox.
 4gb ram, 2 vCPU for $24/month.
 login to digital ocean account via github login.
-i have an ssh key on my work mbp:
-ssh key: ~/.ssh/id_rsa named "id_rsa work mbp"
-can login via `ssh root@162.243.205.126`
+
+ip address is 162.243.205.126
+need to setup ssh key on personal mb air.
 
 installed codex cli (v0.139) directly onto that box via
 `curl -fsSL https://chatgpt.com/codex/install.sh | sh`
