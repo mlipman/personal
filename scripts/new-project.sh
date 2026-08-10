@@ -32,11 +32,13 @@ mkdir -p "$PROJECTS_DIR"
 cp -R "$TEMPLATE_DIR" "$target_dir"
 
 if [ -f "$target_dir/package.json" ]; then
-  sed -i "s/nextjs-prisma-pg-template/$project_slug/g" "$target_dir/package.json"
+  sed -i.bak "s/nextjs-prisma-pg-template/$project_slug/g" "$target_dir/package.json"
+  rm "$target_dir/package.json.bak"
 fi
 
 if [ -f "$target_dir/.env.example" ]; then
-  sed -i "s/project_name/$project_slug/g" "$target_dir/.env.example"
+  sed -i.bak "s/project_name/$project_slug/g" "$target_dir/.env.example"
+  rm "$target_dir/.env.example.bak"
 fi
 
 echo "Created $target_dir"
