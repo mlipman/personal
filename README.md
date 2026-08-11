@@ -20,3 +20,5 @@ we setup a http server on the devbox, code and setup is in remote_control
 that allows someone with the bearer token to go to http://162.243.205.126:8787/ and send a request
 which will go to codex. i'm considering instead using open claw or similar to correspond with an agent on the devbox.
 ```
+
+see simple-log as an example of a successfully deployed nextjs webapp, with its README including prod setup and deploy process
