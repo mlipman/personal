@@ -1,9 +1,11 @@
 # Dependencies and build output
 node_modules/
+.pnpm-store/
 .next/
 dist/
 build/
 coverage/
+*.tsbuildinfo
 
 # Local environment and secrets
 .env
@@ -17,4 +19,3 @@ coverage/
 .DS_Store
 .idea/
 .vscode/
-
