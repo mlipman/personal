@@ -1,12 +1,14 @@
 # Option 1: app password + signed long-lived cookie
 
-This is the recommended first implementation.
+This is the selected implementation. It has been integrated into `projects/simple-log` on the
+auth-options branch; the files here are retained as an isolated reference.
 
 ## How it works
 
-The login action verifies a scrypt password hash and sets a signed `HttpOnly` cookie. Middleware
-verifies the HMAC signature and expiry before any page or API code runs. There is no user row and
-no session row because the app has only one identity.
+The login action compares the supplied password with the server-only `SIMPLE_LOG_PASSWORD`
+environment variable and sets a signed `HttpOnly` cookie. Middleware verifies the HMAC signature
+and expiry before any page or API code runs. There is no user row and no session row because the
+app has only one identity.
 
 The prepared cookie lasts 365 days. A browser can still discard it early, and clearing site data
 signs that device out.
@@ -23,26 +25,25 @@ Copy these files into `projects/simple-log`:
 | `app/login/actions.ts` | `app/login/actions.ts` |
 | `app/login/page.tsx` | `app/login/page.tsx` |
 | `app/logout-button.tsx` | `app/logout-button.tsx` |
-| `scripts/generate-auth-secrets.mjs` | `scripts/generate-auth-secrets.mjs` |
+| `scripts/generate-session-secret.mjs` | `scripts/generate-session-secret.mjs` |
 
 Then optionally import and render `LogoutButton` in the existing header. Logout is useful but is
 not required for protection.
 
-Run the generator once:
+Choose the password yourself and run the generator once for the independent signing secret:
 
 ```sh
-node scripts/generate-auth-secrets.mjs
+node scripts/generate-session-secret.mjs
 ```
 
-Save the printed password in the password manager. Put only the two generated environment values
-in Vercel Preview and Production:
+Put the chosen password and printed secret in Vercel Preview and Production:
 
 ```dotenv
-SIMPLE_LOG_PASSWORD_HASH=scrypt$16384$8$1$...
+SIMPLE_LOG_PASSWORD=your-strong-unique-password
 SIMPLE_LOG_SESSION_SECRET=...
 ```
 
-Do not put the printed password in Vercel or Git. Locally, add the same two values to `.env.local`.
+Do not put either value in Git. Locally, add the same two values to `.env.local`.
 
 ## Pros
 
@@ -50,7 +51,7 @@ Do not put the printed password in Vercel or Git. Locally, add the same two valu
 - No auth vendor, extra package, schema migration, or request-time database lookup.
 - Precisely matches "enter a password once on each device."
 - Rotating `SIMPLE_LOG_SESSION_SECRET` immediately invalidates every existing cookie.
-- Changing only the password hash affects new logins without signing out current devices.
+- Changing only the password affects new logins without signing out current devices.
 
 ## Cons
 

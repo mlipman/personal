@@ -1,6 +1,9 @@
 # Simple Log authentication recommendations
 
-Status: implementation spikes only. Nothing in this directory is imported by the deployed app.
+Status: Option 1 is selected and integrated into `projects/simple-log` on the
+`codex/simple-log-auth-options` branch. It remains inactive in production until the branch is
+merged and its environment variables are configured. The other directories remain comparison
+spikes only.
 
 Target: `projects/simple-log`, a one-person Next.js app deployed on Vercel at
 `simple-log.mlipman.com`.
@@ -9,8 +12,8 @@ Target: `projects/simple-log`, a one-person Next.js app deployed on Vercel at
 
 Start with **Option 1: an app-local password that creates a signed, one-year cookie**.
 It matches the actual use case, adds no service or database dependency, and is small enough to
-audit. Generate a high-entropy password, save it in the password manager, and enter it once on
-each device. Rotating the session secret signs every device out.
+audit. Configure a strong, unique password in Vercel and enter it once on each device. Rotating
+the separate session secret signs every device out.
 
 Move to **Option 2: database-backed device sessions** only if the inability to revoke one lost
 device becomes uncomfortable. It preserves the same login experience but makes each request do a
@@ -43,22 +46,25 @@ Options 3 and 4 are useful reference points, but neither currently fits as well:
    environment variables are absent, and the auth variables must be configured for Vercel Preview
    as well as Production.
 
-## Shared security choices
+## Selected option security choices
 
-- Store a scrypt password hash, never the login password, in Vercel environment variables.
-- Generate a random password rather than reusing a human password from another account.
+- Store the strong, unique app password directly in the server-only Vercel environment. In this
+  one-user system, hashing it would add setup complexity without materially improving protection
+  from a full environment leak, because that environment also holds the cookie-signing secret.
+- Never reuse the app password for another account or commit it to Git.
+- Generate the session secret independently from the human-entered password.
 - Set session cookies `HttpOnly`, `Secure`, `SameSite=Lax`, `Path=/`, and with the `__Host-`
   prefix.
 - Return JSON `401` responses from APIs and redirects only for browser page requests.
 - Exclude only immutable Next.js assets from middleware; protect all data-bearing routes.
 - Use HTTPS only. The current Vercel custom domain already provides it.
-- Add a modest login rate limit before using a short or guessable password. The prepared local
-  options instead assume the generated high-entropy password.
+- Add a modest login rate limit before using a short or guessable password. The selected option
+  instead assumes a strong, unique password.
 
 ## Prepared artifacts
 
-- [`option-1-signed-cookie`](./option-1-signed-cookie/README.md): complete middleware, login,
-  logout, password hashing, and secret generation code.
+- [`option-1-signed-cookie`](./option-1-signed-cookie/README.md): selected middleware, login,
+  logout, plaintext environment-password comparison, and session-secret generation code.
 - [`option-2-db-sessions`](./option-2-db-sessions/README.md): Prisma model/migration, persistent
   opaque sessions, middleware, and a session-revocation API.
 - [`option-3-cloudflare-access`](./option-3-cloudflare-access/README.md): origin JWT validation and
@@ -66,8 +72,8 @@ Options 3 and 4 are useful reference points, but neither currently fits as well:
 - [`option-4-vercel-protection`](./option-4-vercel-protection/README.md): the current project API
   payload and rollout checks; no application code is needed by design.
 
-Each option is intentionally isolated. Copy only the selected option's mapped files into
-`projects/simple-log`, then make the small integration edits listed in that option's README.
+The selected option is already copied into `projects/simple-log`. The other options remain
+isolated so they can be revisited without affecting the app.
 
 ## Current platform facts checked on 2026-08-14
 
@@ -83,8 +89,8 @@ Each option is intentionally isolated. Copy only the selected option's mapped fi
 
 ## Suggested decision sequence
 
-1. Apply Option 1 to a preview deployment.
+1. Configure the two auth environment variables and deploy this branch to Vercel Preview.
 2. Test login, refresh, browser restart, image upload, chat, a wrong password, and direct unauthenticated API calls.
 3. Use it on the normal devices for a week.
 4. If device loss/revocation feels like a real concern rather than a theoretical one, replace it
-   with Option 2. The login UI and password hash format can remain the same.
+   with Option 2. The login UI can remain the same.

@@ -4,6 +4,7 @@ import { FormEvent, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { parseLogContent } from "@/lib/log-content";
+import { LogoutButton } from "./logout-button";
 
 type LogRecord = { id: string; createdAt: string; context: string };
 type ChatMessage = { role: "user" | "assistant"; content: string };
@@ -59,7 +60,7 @@ export function SimpleLog({ initialLogs }: { initialLogs: LogRecord[] }) {
   }
 
   return <main>
-    <header><a className="brand" href="#"><span className="mark">s_l</span><span>simple_log</span></a><nav aria-label="Primary"><button className={tab === "log" ? "active" : ""} onClick={() => setTab("log")}>Log</button><button className={tab === "chat" ? "active" : ""} onClick={() => setTab("chat")}>Chat</button></nav><span className="status"><i /> private space</span></header>
+    <header><a className="brand" href="#"><span className="mark">s_l</span><span>simple_log</span></a><nav aria-label="Primary"><button className={tab === "log" ? "active" : ""} onClick={() => setTab("log")}>Log</button><button className={tab === "chat" ? "active" : ""} onClick={() => setTab("chat")}>Chat</button></nav><span className="status"><i /> private space</span><LogoutButton /></header>
     {tab === "log" ? <section className="workspace">
       <div className="intro"><p className="eyebrow">YOUR RUNNING MEMORY</p><h1>What happened?</h1><p>Write it down while it’s fresh. Add an image if it helps.</p></div>
       <form className="composer" onSubmit={addLog}><textarea autoFocus value={context} onChange={(e) => setContext(e.target.value)} onKeyDown={(event) => { if (event.metaKey && event.key === "Enter" && !busy && context.trim()) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="A thought, an observation, something worth remembering…" maxLength={100000} /><div className="composer-footer"><div><input ref={fileInput} hidden type="file" accept="image/*" onChange={(e) => { const file = e.target.files?.[0]; if (file) void uploadImage(file); }} /><button type="button" className="attach" onClick={() => fileInput.current?.click()} disabled={busy}>＋ Image</button><span>{characterCount.toLocaleString()} chars</span></div><button className="primary" disabled={busy || !context.trim()}>{busy ? "Saving…" : "Add to log →"}</button></div></form>
