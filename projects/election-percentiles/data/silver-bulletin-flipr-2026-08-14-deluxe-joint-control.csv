@@ -1,0 +1,5 @@
+model,updated_date,simulations,house_control,senate_control,probability_percent
+deluxe,2026-08-14,40000,democratic,democratic,56.1
+deluxe,2026-08-14,40000,republican,democratic,0.4
+deluxe,2026-08-14,40000,democratic,republican,30.1
+deluxe,2026-08-14,40000,republican,republican,13.5

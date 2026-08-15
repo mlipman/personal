@@ -22,3 +22,30 @@ which will go to codex. i'm considering instead using open claw or similar to co
 ```
 
 see simple-log as an example of a successfully deployed nextjs webapp, with its README including prod setup and deploy process
+
+## Simple static and mostly-static sites
+
+For small standalone sites, use Cloudflare Workers with a custom domain rather than Vercel or a GitHub deployment integration. `projects/election-percentiles` is the working example, deployed at `percentiles.mlipman.com`.
+
+Each site checks in:
+
+- its source code and normal build configuration;
+- a `wrangler.jsonc` containing the Worker name, compatibility settings, and custom-domain route;
+- a `deploy` package script that builds the production bundle and runs `wrangler deploy`; and
+- ignore rules for generated output and local Wrangler state.
+
+The deployment path is local working copy → production build → Wrangler → Cloudflare. A GitHub push does not deploy the site, and Vercel is not involved.
+
+On the first deployment from a computer:
+
+```bash
+npm install
+npx wrangler login
+npm run deploy
+```
+
+`npx wrangler login` opens Cloudflare OAuth and stores the authorization on that computer. Later deployments from the same computer normally require only `npm run deploy`. Deploying interactively from a different computer requires running the login command there as well.
+
+For CI, a devbox, or another non-interactive environment, use a scoped Cloudflare API token instead of browser login. Give the token only the permissions needed to deploy the Worker and manage its route/custom domain, store it in the environment's secret manager as `CLOUDFLARE_API_TOKEN`, and run `npm run deploy`. Never commit the token or local Wrangler credentials.
+
+See `projects/election-percentiles/README.md` for the concrete configuration and commands.
