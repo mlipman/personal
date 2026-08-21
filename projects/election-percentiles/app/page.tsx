@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import OrthogonalExplorers from "./orthogonal-explorers";
 
 type OutcomeSide = "dem" | "split" | "gop";
 
@@ -29,25 +30,25 @@ type LineDefinition = {
 // Whole-percent widths derived from the displayed Silver Bulletin Deluxe
 // distribution. Tiny tails are grouped so every outcome remains legible.
 const senateBands: Band[] = [
-  { label: "55 or more Democratic Senate seats", shortLabel: "55+", start: 0, end: 9, side: "dem", color: "#123b80" },
-  { label: "54 Democratic Senate seats", shortLabel: "54", start: 9, end: 17, side: "dem", color: "#174898" },
-  { label: "53 Democratic Senate seats", shortLabel: "53", start: 17, end: 28, side: "dem", color: "#2059b7" },
+  { label: "55 or more Democratic Senate seats", shortLabel: "55+", start: 0, end: 8, side: "dem", color: "#123b80" },
+  { label: "54 Democratic Senate seats", shortLabel: "54", start: 8, end: 16, side: "dem", color: "#174898" },
+  { label: "53 Democratic Senate seats", shortLabel: "53", start: 16, end: 28, side: "dem", color: "#2059b7" },
   { label: "52 Democratic Senate seats", shortLabel: "52", start: 28, end: 42, side: "dem", color: "#2d69ce" },
-  { label: "51 Democratic Senate seats", shortLabel: "51", start: 42, end: 56, side: "dem", color: "#7399db" },
-  { label: "50 Democratic Senate seats", shortLabel: "50", start: 56, end: 70, side: "gop", color: "#e28a83" },
+  { label: "51 Democratic Senate seats", shortLabel: "51", start: 42, end: 57, side: "dem", color: "#7399db" },
+  { label: "50 Democratic Senate seats", shortLabel: "50", start: 57, end: 70, side: "gop", color: "#e28a83" },
   { label: "49 Democratic Senate seats", shortLabel: "49", start: 70, end: 81, side: "gop", color: "#dd6c64" },
   { label: "48 Democratic Senate seats", shortLabel: "48", start: 81, end: 89, side: "gop", color: "#d3514c" },
-  { label: "47 Democratic Senate seats", shortLabel: "47", start: 89, end: 95, side: "gop", color: "#be3738" },
-  { label: "46 or fewer Democratic Senate seats", shortLabel: "≤46", start: 95, end: 100, side: "gop", color: "#8f1f2b" },
+  { label: "47 Democratic Senate seats", shortLabel: "47", start: 89, end: 94, side: "gop", color: "#be3738" },
+  { label: "46 or fewer Democratic Senate seats", shortLabel: "≤46", start: 94, end: 100, side: "gop", color: "#8f1f2b" },
 ];
 
 const houseBands: Band[] = [
-  { label: "250 or more Democratic House seats", shortLabel: "250+", start: 0, end: 14, side: "dem", color: "#123b80" },
-  { label: "240–249 Democratic House seats", shortLabel: "240–249", start: 14, end: 32, side: "dem", color: "#1c4b99" },
-  { label: "230–239 Democratic House seats", shortLabel: "230–239", start: 32, end: 58, side: "dem", color: "#2d66c5" },
-  { label: "218–229 Democratic House seats", shortLabel: "218–229", start: 58, end: 86, side: "dem", color: "#7599d8" },
-  { label: "210–217 Democratic House seats", shortLabel: "210–217", start: 86, end: 96, side: "gop", color: "#e2867f" },
-  { label: "209 or fewer Democratic House seats", shortLabel: "≤209", start: 96, end: 100, side: "gop", color: "#a92632" },
+  { label: "250 or more Democratic House seats", shortLabel: "250+", start: 0, end: 11, side: "dem", color: "#123b80" },
+  { label: "240–249 Democratic House seats", shortLabel: "240–249", start: 11, end: 27, side: "dem", color: "#1c4b99" },
+  { label: "230–239 Democratic House seats", shortLabel: "230–239", start: 27, end: 53, side: "dem", color: "#2d66c5" },
+  { label: "218–229 Democratic House seats", shortLabel: "218–229", start: 53, end: 84, side: "dem", color: "#7599d8" },
+  { label: "210–217 Democratic House seats", shortLabel: "210–217", start: 84, end: 95, side: "gop", color: "#e2867f" },
+  { label: "209 or fewer Democratic House seats", shortLabel: "≤209", start: 95, end: 100, side: "gop", color: "#a92632" },
 ];
 
 const congressBands: Band[] = [
@@ -64,7 +65,7 @@ const congressBands: Band[] = [
     label: "Divided Congress",
     shortLabel: "Divided",
     start: 56,
-    end: 86,
+    end: 84,
     side: "split",
     color: "#8d7b91",
     detail: "Democratic House · Republican Senate",
@@ -72,7 +73,7 @@ const congressBands: Band[] = [
   {
     label: "Republican sweep",
     shortLabel: "R sweep",
-    start: 86,
+    start: 84,
     end: 100,
     side: "gop",
     color: "#b7353c",
@@ -87,9 +88,9 @@ const lines: LineDefinition[] = [
     title: "How many Senate seats do Democrats win?",
     intro: "Exact seat outcomes across the model’s 40,000 simulations, with only the low-probability tails grouped together.",
     bands: senateBands,
-    bracketWidth: 56,
-    bracketLabel: "56% Democratic Senate control",
-    note: "Rounded to whole percentile points from the Deluxe histogram. The source topline is 56.4% Democratic control.",
+    bracketWidth: 57,
+    bracketLabel: "57% Democratic Senate control",
+    note: "Rounded to whole percentile points from the Deluxe histogram. The source topline is 56.8% Democratic control.",
     verticalLabels: true,
   },
   {
@@ -98,9 +99,9 @@ const lines: LineDefinition[] = [
     title: "How many House seats do Democrats win?",
     intro: "The same idea, with individual seat counts collected into six readable ranges.",
     bands: houseBands,
-    bracketWidth: 86,
-    bracketLabel: "86% Democratic House control",
-    note: "Grouped from the Deluxe seat histogram and rounded to whole percentile points. The source topline is 86.2% Democratic control.",
+    bracketWidth: 84,
+    bracketLabel: "84% Democratic House control",
+    note: "Grouped from the Deluxe seat histogram and rounded to whole percentile points. The source topline is 84.0% Democratic control.",
     verticalLabels: true,
   },
   {
@@ -111,7 +112,7 @@ const lines: LineDefinition[] = [
     bands: congressBands,
     bracketWidth: 56,
     bracketLabel: "56% Democratic sweep",
-    note: "Rounded from 56.1%, 30.1%, and 13.5%. The 0.4% Republican House + Democratic Senate outcome is deliberately omitted.",
+    note: "Rounded from 56.2%, 27.8%, and 15.4%. The 0.6% Republican House + Democratic Senate outcome is deliberately omitted.",
   },
 ];
 
@@ -204,7 +205,7 @@ function OutcomeLine({ definition, percentile }: { definition: LineDefinition; p
           <p className="eyebrow">{definition.eyebrow}</p>
           <h2 id={`${definition.id}-title`}>{definition.title}</h2>
         </div>
-        <p className="source-note">Silver Bulletin Deluxe<br /><span>August 14, 2026</span></p>
+        <p className="source-note">Silver Bulletin Deluxe<br /><span>August 20, 2026</span></p>
       </div>
 
       <p className="section-intro">{definition.intro}</p>
@@ -264,15 +265,17 @@ export default function Home() {
       <div className="page-intro" id="top">
         <p className="intro-kicker">One hundred equally likely points</p>
         <h1>Three ways to walk through the election forecast.</h1>
-        <p className="intro-copy">Every point on each line is equally likely. The width of each band is the chance of that outcome. Move one slider to see the same possible election night in all three views.</p>
+        <p className="intro-copy">Every point on each line is equally likely. The width of each band is the chance of that outcome. The shared slider aligns marginal percentiles; the joint views below show which outcomes actually travel together.</p>
         <GlobalPercentileControl percentile={percentile} onChange={setPercentile} />
       </div>
 
       {lines.map((definition) => <OutcomeLine definition={definition} percentile={percentile} key={definition.id} />)}
 
+      <OrthogonalExplorers />
+
       <footer className="site-footer">
         <span>Possible Futures</span>
-        <p>Silver Bulletin FLIPR Deluxe · 40,000 simulations · updated August 14, 2026</p>
+        <p>Silver Bulletin FLIPR Deluxe · 40,000 simulations · updated August 20, 2026</p>
       </footer>
     </main>
   );

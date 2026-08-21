@@ -25,12 +25,15 @@ test("server-renders the election outcome explorer", async () => {
   assert.match(html, /How many Senate seats do Democrats win/);
   assert.match(html, /How many House seats do Democrats win/);
   assert.match(html, /Who controls the two chambers/);
-  assert.match(html, /56% Democratic Senate control/);
-  assert.match(html, /86% Democratic House control/);
+  assert.match(html, /57% Democratic Senate control/);
+  assert.match(html, /84% Democratic House control/);
   assert.match(html, /Democratic sweep/);
   assert.match(html, /Silver Bulletin Deluxe/);
   assert.match(html, /One point, three outcomes/);
-  assert.equal((html.match(/type="range"/g) ?? []).length, 1);
+  assert.match(html, /Same seat count, different route/);
+  assert.match(html, /Overall result, plus chamber tilt/);
+  assert.match(html, /Research approximation/);
+  assert.equal((html.match(/type="range"/g) ?? []).length, 3);
   assert.doesNotMatch(html, /A square, pulled toward the diagonal|Six races, sixty-four combinations|Illustrative probabilities/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });

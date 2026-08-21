@@ -1,0 +1,231 @@
+{
+  "generated_at": "2026-08-21T16:28:50.236Z",
+  "status": "Approximation, not Silver Bulletin simulation output",
+  "method": "Iterative proportional fitting (raking) of Mac Tan's 10,000 shared House/Senate draws",
+  "source_draws": {
+    "model": "Mac Tan US-2026",
+    "repository": "https://github.com/thisismactan/US-2026",
+    "commit": "bf20a3e321fb0cac0f45b8ed9dc04dbfa764f494",
+    "license": "MIT"
+  },
+  "calibration_targets": {
+    "model": "Silver Bulletin FLIPR Deluxe",
+    "forecast_date": "2026-08-20",
+    "page": "https://www.natesilver.net/p/nate-silver-2026-midterm-election-polls-model",
+    "constraints": "Six individual Senate win probabilities, ten Senate seat bands, six House seat bands, and four joint-control cells"
+  },
+  "diagnostics": {
+    "iterations": 78,
+    "maximum_absolute_constraint_error": 9.763001518336978e-11,
+    "effective_sample_size": 3821,
+    "maximum_draw_weight": 0.00176668,
+    "maximum_weight_multiple_of_uniform": 17.67,
+    "constraint_results": {
+      "Senate bands": {
+        "47": {
+          "target": 0.05245,
+          "achieved": 0.05245,
+          "error": 1.9e-11
+        },
+        "48": {
+          "target": 0.0816,
+          "achieved": 0.0816,
+          "error": 2.3e-11
+        },
+        "49": {
+          "target": 0.109675,
+          "achieved": 0.109675,
+          "error": 2.1e-11
+        },
+        "50": {
+          "target": 0.134525,
+          "achieved": 0.134525,
+          "error": 1.2e-11
+        },
+        "51": {
+          "target": 0.149025,
+          "achieved": 0.149025,
+          "error": -8e-12
+        },
+        "52": {
+          "target": 0.143725,
+          "achieved": 0.143725,
+          "error": -2e-11
+        },
+        "53": {
+          "target": 0.118525,
+          "achieved": 0.118525,
+          "error": -2.6e-11
+        },
+        "54": {
+          "target": 0.0787,
+          "achieved": 0.0787,
+          "error": -2.1e-11
+        },
+        "46_or_fewer": {
+          "target": 0.053925,
+          "achieved": 0.053925,
+          "error": 2.4e-11
+        },
+        "55_or_more": {
+          "target": 0.07785,
+          "achieved": 0.07785,
+          "error": -2.3e-11
+        }
+      },
+      "House bands": {
+        "209_or_fewer": {
+          "target": 0.05005,
+          "achieved": 0.05005,
+          "error": 2e-11
+        },
+        "210_to_217": {
+          "target": 0.1099,
+          "achieved": 0.1099,
+          "error": 3e-11
+        },
+        "218_to_229": {
+          "target": 0.309175,
+          "achieved": 0.309175,
+          "error": 2.2e-11
+        },
+        "230_to_239": {
+          "target": 0.261825,
+          "achieved": 0.261825,
+          "error": -1.9e-11
+        },
+        "240_to_249": {
+          "target": 0.158925,
+          "achieved": 0.158925,
+          "error": -2.5e-11
+        },
+        "250_or_more": {
+          "target": 0.110125,
+          "achieved": 0.110125,
+          "error": -2.8e-11
+        }
+      },
+      "Joint control": {
+        "D_house_D_senate": {
+          "target": 0.561975,
+          "achieved": 0.561975,
+          "error": -9.8e-11
+        },
+        "R_house_D_senate": {
+          "target": 0.00585,
+          "achieved": 0.00585,
+          "error": 0
+        },
+        "D_house_R_senate": {
+          "target": 0.278075,
+          "achieved": 0.278075,
+          "error": 4.8e-11
+        },
+        "R_house_R_senate": {
+          "target": 0.1541,
+          "achieved": 0.1541,
+          "error": 5e-11
+        }
+      },
+      "IA winner": {
+        "D": {
+          "target": 0.44032499,
+          "achieved": 0.44032499,
+          "error": -3.8e-11
+        },
+        "R": {
+          "target": 0.55967501,
+          "achieved": 0.55967501,
+          "error": 3.8e-11
+        }
+      },
+      "TX winner": {
+        "D": {
+          "target": 0.60544997,
+          "achieved": 0.60544997,
+          "error": -3.4e-11
+        },
+        "R": {
+          "target": 0.39455003,
+          "achieved": 0.39455003,
+          "error": 3.4e-11
+        }
+      },
+      "OH winner": {
+        "D": {
+          "target": 0.60677499,
+          "achieved": 0.60677499,
+          "error": -2.5e-11
+        },
+        "R": {
+          "target": 0.39322501,
+          "achieved": 0.39322501,
+          "error": 2.5e-11
+        }
+      },
+      "AK winner": {
+        "D": {
+          "target": 0.52565002,
+          "achieved": 0.52565002,
+          "error": -1.5e-11
+        },
+        "R": {
+          "target": 0.47434998,
+          "achieved": 0.47434998,
+          "error": 1.5e-11
+        }
+      },
+      "ME winner": {
+        "D": {
+          "target": 0.68159997,
+          "achieved": 0.68159997,
+          "error": -8e-12
+        },
+        "R": {
+          "target": 0.31840003,
+          "achieved": 0.31840003,
+          "error": 8e-12
+        }
+      },
+      "MI winner": {
+        "D": {
+          "target": 0.71609998,
+          "achieved": 0.71609998,
+          "error": 0
+        },
+        "R": {
+          "target": 0.28390002,
+          "achieved": 0.28390002,
+          "error": 0
+        }
+      }
+    }
+  },
+  "dimensions": {
+    "conventionality": {
+      "description": "At a fixed number of wins, high values put Democratic wins in the races where Silver gives Democrats better marginal odds; low values invert the expected battlefield",
+      "derivation": "Sum of centered Silver Democratic-win logits for races won by Democrats; centering makes the loading vector sum to zero and therefore orthogonal to raw win count",
+      "loadings_scaled_to_max_abs_one": {
+        "IA": -1,
+        "TX": 0.041082,
+        "OH": 0.049731,
+        "AK": -0.466215,
+        "ME": 0.559868,
+        "MI": 0.815535
+      }
+    },
+    "house_senate": {
+      "description": "Standardized 45-degree rotation of the two chamber seat totals",
+      "house_mean": 231.65,
+      "house_standard_deviation": 15.706,
+      "senate_mean": 50.833,
+      "senate_standard_deviation": 2.684
+    }
+  },
+  "caveats": [
+    "Raking changes draw weights but cannot create outcome patterns absent from the open simulations.",
+    "The calibration targets are rounded/public chart outputs and do not identify Silver's unpublished dependence structure.",
+    "Large or concentrated weights reduce effective simulation size; consult diagnostics before using rare-route estimates.",
+    "A zero open-simulation count means not observed in 10,000 draws, not impossible."
+  ]
+}

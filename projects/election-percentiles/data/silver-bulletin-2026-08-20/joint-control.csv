@@ -1,0 +1,13 @@
+model,house,senate,label,probability,forecastDate,timestamp
+classic,D,D,Democratic sweep,54.8325,2026-08-20,2026-08-20T12:23:29
+classic,R,D,Split control,0.4675,2026-08-20,2026-08-20T12:23:29
+classic,D,R,Split control,29.34,2026-08-20,2026-08-20T12:23:29
+classic,R,R,Republican sweep,15.36,2026-08-20,2026-08-20T12:23:29
+deluxe,D,D,Democratic sweep,56.1975,2026-08-20,2026-08-20T12:23:29
+deluxe,R,D,Split control,0.585,2026-08-20,2026-08-20T12:23:29
+deluxe,D,R,Split control,27.8075,2026-08-20,2026-08-20T12:23:29
+deluxe,R,R,Republican sweep,15.41,2026-08-20,2026-08-20T12:23:29
+lite,D,D,Democratic sweep,57.19,2026-08-20,2026-08-20T12:23:29
+lite,R,D,Split control,0.8475,2026-08-20,2026-08-20T12:23:29
+lite,D,R,Split control,22.94,2026-08-20,2026-08-20T12:23:29
+lite,R,R,Republican sweep,19.0225,2026-08-20,2026-08-20T12:23:29

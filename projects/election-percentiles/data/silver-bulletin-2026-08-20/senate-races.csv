@@ -1,0 +1,85 @@
+cycle,branch,forecastdate,expression,state_district,candidate_last_name,candidate_party,win_probability,forecasted_vote_share,even_odd,race_rating,timestamp
+2026,Senate,8/20/26,deluxe,TX,Talarico,D,0.60544997,49.444865,1,Lean D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,TX,Paxton,R,0.39455,47.798064,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,OH,Brown,D,0.60677499,49.853299,0,Lean D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,OH,Husted,R,0.39322501,48.143026,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,ME,Jackson,D,0.68159997,50.369545,1,Lean D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,ME,Collins,R,0.3184,47.168694,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MI,El-Sayed,D,0.71609998,50.563602,0,Lean D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MI,Rogers,R,0.28389999,46.952872,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,IA,Hinson,R,0.55967498,49.582124,1,Toss-up,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,IA,Turek,D,0.44032499,48.640794,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,IA,Laehn,I,0,1.7770824,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AK,Peltola,D,0.52565002,48.8708,0,Toss-up,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AK,Sullivan,R,0.47435001,47.713417,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AK,Sullivan Jr.,R,0,2.395447,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AK,Leslie,D,0,1.0203344,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NC,Cooper,D,0.90265,53.087716,1,Likely D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NC,Whatley,R,0.09735,44.96382,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NH,Pappas,D,0.90195,53.652067,0,Likely D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NH,Sununu,R,0.09805,44.323262,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NH,Giovonizzi,I,0,2.0246718,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,KS,Marshall,R,0.82892501,53.220943,1,Likely R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,KS,Hamilton,D,0.171075,46.779057,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NE,Ricketts,R,0.83907503,52.618446,0,Likely R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NE,Osborn,I,0.160925,45.445128,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NE,Marvin,I,0,1.936426,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MN,Flanagan,D,0.92592502,53.581222,1,Likely D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MN,Tafoya,R,0.074075,43.634556,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,GA,Ossoff,D,0.92467499,54.069349,0,Likely D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,GA,Collins,R,0.075325,44.076643,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,SC,Graham,R,0.888825,51.936626,1,Likely R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,SC,Andrews,D,0.111175,42.523043,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,FL,Moody,R,0.89772499,53.265464,0,Likely R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,FL,Nixon,D,0.102275,44.611567,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MS,Hyde-Smith,R,0.97009999,54.697136,1,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MS,Colom,D,0.0299,42.495232,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MS,Pinkins,I,0,2.8076313,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,LA,Letlow,R,0.95774996,55.374457,0,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,LA,Davis,D,0.04225,41.69063,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,LA,LaBranche,I,0,2.9349132,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AR,Cotton,R,0.982575,56.735315,1,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AR,Shoffner,D,0.017425,40.383087,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AR,Wadlin,I,0,2.8815985,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MT,Alme,R,0.97915,46.735223,0,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MT,Bankhead,D,0.013075,29.542198,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MT,Bodnar,I,0.007775,21.707396,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NM,Luján,D,0.993325,59.175764,1,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NM,Marker,R,0.006675,37.543345,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NM,Smith,I,0,3.2808907,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,VA,Warner,D,0.99465001,59.126696,0,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,VA,Mizusawa,R,0.005325,37.791481,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,VA,Moran,I,0.000025,3.0818229,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NJ,Booker,D,0.99519998,59.357847,1,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NJ,Murphy,R,0.0048,37.50693,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,NJ,Misseri,I,0,3.1352229,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,IL,Stratton,D,0.995525,58.956614,0,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,IL,Tracy,R,0.004475,37.154959,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,CO,Hickenlooper,D,0.99532503,58.45779,1,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,CO,Baisley,R,0.004675,36.339951,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,DE,Coons,D,0.99870002,61.230156,0,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,DE,Katz,R,0.0013,35.900464,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,DE,Bland,I,0,2.86938,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,OR,Merkley,D,0.99839997,62.494368,1,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,OR,Smith,R,0.0016,37.505632,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,KY,Barr,R,0.99652499,59.466272,0,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,KY,Booker,D,0.003475,38.383837,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,KY,Campbell,I,0,2.1498916,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,RI,Reed,D,0.99910003,63.004987,1,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,RI,McKay,R,0.0009,33.654406,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,SD,Rounds,R,0.99839997,61.593932,0,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,SD,Bengs,I,0.0016,38.406068,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,ID,Risch,R,0.99772501,57.358656,1,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,ID,Achilles,I,0.002275,34.461658,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AL,Moore,R,0.998025,61.782266,0,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,AL,Wess,D,0.001975,38.217734,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,TN,Hagerty,R,0.99852502,59.509408,1,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,TN,Bradshaw,D,0.001475,34.380753,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,OK,Hern,R,0.99927503,60.72757,0,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,OK,Priest,D,0.000725,34.21756,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MA,Markey,D,0.99987501,63.840898,1,Solid D,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,MA,Deaton,R,0.000125,31.549201,1,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,WY,Hageman,R,0.99997503,71.885398,0,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,WY,Byrd,D,0.000025,28.114602,0,,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,WV,Capito,R,0.99994999,68.001719,1,Solid R,12:23:29 20 Aug 2026
+2026,Senate,8/20/26,deluxe,WV,Fetty Anderson,D,0.00005,31.998281,1,,12:23:29 20 Aug 2026

@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-08-21T16:28:49.832Z",
+  "model": {
+    "name": "Mac Tan US-2026",
+    "repository": "https://github.com/thisismactan/US-2026",
+    "commit": "bf20a3e321fb0cac0f45b8ed9dc04dbfa764f494",
+    "snapshot_date": "2026-08-21",
+    "license": "MIT",
+    "simulations": 10000,
+    "senate_posterior_source": "https://media.githubusercontent.com/media/thisismactan/US-2026/bf20a3e321fb0cac0f45b8ed9dc04dbfa764f494/output/senate_state_posterior.csv",
+    "house_posterior_source": "https://media.githubusercontent.com/media/thisismactan/US-2026/bf20a3e321fb0cac0f45b8ed9dc04dbfa764f494/output/house_district_posterior.csv",
+    "senate_posterior_sha256": "a31b98537f1cede36fe766080aefea7c2643c21faca6a8b0a16465d3215374e8",
+    "house_posterior_sha256": "d4074c9222620623daad05bb1dc3b0add5c26de0559e5bcc9e4efd7f9deed580"
+  },
+  "conventions": {
+    "race_order": [
+      "IA",
+      "TX",
+      "OH",
+      "AK",
+      "ME",
+      "MI"
+    ],
+    "democratic_win_test": "r2p_pred <= 0.5",
+    "senate_total": "100 minus Republican seats; includes a possible Nebraska independent on the non-Republican side",
+    "primary_axis": "0 is the strongest Democratic joint chamber performance; 100 is the strongest Republican performance",
+    "chamber_tilt_axis": "0 is Senate overperformance; 100 is House overperformance",
+    "geography_axis": "low emphasizes IA/MI/OH/TX; high emphasizes AK/ME",
+    "zero_count": "Not observed in 10,000 draws; not proof of zero probability"
+  },
+  "dimensions": {
+    "six_state_geography": {
+      "derivation": "First principal component of the six continuous Democratic race margins after projecting out the equal-weight/common direction",
+      "explained_share_of_residual_variance": 0.24018,
+      "loadings_scaled_to_max_abs_one": {
+        "IA": -0.602784,
+        "TX": -0.103428,
+        "OH": -0.112531,
+        "AK": 1,
+        "ME": 0.031285,
+        "MI": -0.212543
+      },
+      "other_residual_component_shares": [
+        0.224173,
+        0.184706,
+        0.182005,
+        0.168936
+      ]
+    },
+    "house_senate": {
+      "derivation": "Standardize chamber seat totals, then rotate 45 degrees: overall=(House z + Senate z)/sqrt(2); tilt=(House z - Senate z)/sqrt(2)",
+      "house_mean": 222.693,
+      "house_standard_deviation": 17.298,
+      "senate_mean": 48.862,
+      "senate_standard_deviation": 2.882,
+      "house_senate_correlation": 0.673
+    },
+    "route_rarity": {
+      "derivation": "-ln P(six-state combination | Democratic-aligned Senate total), with a probability-weighted conditional midrank percentile"
+    }
+  }
+}
