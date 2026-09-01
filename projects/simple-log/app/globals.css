@@ -44,7 +44,7 @@ textarea::placeholder { color:#a4a9a3; }
 .meal-chip.dinner { background:#204f3d; color:#fff; }
 .meal-chip.other { background:#ece7da; color:#5c5850; }
 .meal-chip.active { box-shadow:inset 0 0 0 2px var(--ink); }
-.meal-slot.empty { height:6px; border-radius:99px; opacity:.55; }
+.meal-slot.empty { height:6px; border-radius:99px; opacity:.55; flex:none; }
 .meal-slot.empty.lunch { background:#c9d6c9; }
 .meal-slot.empty.dinner { background:#9bb09f; }
 .meal-slot.empty.other { background:#ddd6c8; }

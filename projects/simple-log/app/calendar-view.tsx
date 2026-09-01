@@ -124,6 +124,7 @@ function DayCell({
   const isMonday = mondayIndex(day.date) === 0;
   const isMonthStart = day.date.day === 1;
   const monthParity = day.date.month % 2 === 0 ? "even" : "odd";
+  const hasPosts = day.lunch.length + day.dinner.length + day.other.length > 0;
 
   return (
     <article
@@ -138,6 +139,7 @@ function DayCell({
           {day.date.day}
         </span>
       </header>
+      {hasPosts ? (
       <div className="meal-row">
         {MEAL_BUCKETS.map((meal) => {
           const count = day[meal].length;
@@ -156,6 +158,7 @@ function DayCell({
           );
         })}
       </div>
+      ) : null}
       <ul className="day-posts">
         {MEAL_BUCKETS.flatMap((meal) => day[meal].map((post) => (
           <li key={post.id}>
