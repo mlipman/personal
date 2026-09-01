@@ -143,7 +143,7 @@ function DayCell({
       <div className="meal-row">
         {MEAL_BUCKETS.map((meal) => {
           const count = day[meal].length;
-          if (count === 0) return <span key={meal} className={`meal-slot empty ${meal}`} aria-hidden="true" />;
+          if (count === 0) return null;
           return (
             <button
               key={meal}
