@@ -5,6 +5,8 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { parseLogContent } from "@/lib/log-content";
+import { compressImageFile } from "@/lib/compress-image";
+import { imageUploadCaughtMessage, parseJsonText, readImageUploadError } from "@/lib/image-upload-errors";
 import { CalendarView } from "./calendar-view";
 
 type LogRecord = { id: string; createdAt: string; context: string };
@@ -44,13 +46,16 @@ export function SimpleLog({ initialLogs, initialTab = "log" }: { initialLogs: Lo
   async function uploadImage(file: File) {
     setBusy(true); setError(null);
     try {
-      const data = new FormData(); data.append("file", file);
+      const materialized = await materializeImageFile(file);
+      const compressed = await compressImageFile(materialized);
+      const data = new FormData(); data.append("file", compressed);
       const response = await fetch("/api/images", { method: "POST", body: data });
-      const body: unknown = await response.json();
-      if (!response.ok || !isImageResponse(body)) throw new Error(readError(body));
-      const alt = file.name.replace(/\.[^.]+$/, "") || "image";
+      const text = await response.text();
+      const body = parseJsonText(text);
+      if (!response.ok || !isImageResponse(body)) throw new Error(readImageUploadError(response.status, body, text));
+      const alt = compressed.name.replace(/\.[^.]+$/, "") || "image";
       setContext((current) => `${current}${current && !current.endsWith("\n") ? "\n" : ""}![${alt}](${body.url})\n`);
-    } catch (caught) { setError(messageOf(caught)); } finally { setBusy(false); if (fileInput.current) fileInput.current.value = ""; }
+    } catch (caught) { setError(imageUploadCaughtMessage(caught)); } finally { setBusy(false); if (fileInput.current) fileInput.current.value = ""; }
   }
 
   async function sendMessage(event: FormEvent) {
@@ -84,3 +89,9 @@ function isChatResponse(value: unknown): value is { message: string } { return i
 function readError(value: unknown): string { return isRecord(value) && typeof value.error === "string" ? value.error : "Something went wrong."; }
 function messageOf(value: unknown): string { return value instanceof Error ? value.message : "Something went wrong."; }
 function formatDate(value: string): string { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(new Date(value)); }
+
+async function materializeImageFile(file: File): Promise<File> {
+  const bytes = await file.arrayBuffer();
+  if (bytes.byteLength === 0) throw new Error("That photo looks empty. Try another photo, or take a picture.");
+  return new File([bytes], file.name || "image", { type: file.type, lastModified: file.lastModified });
+}
