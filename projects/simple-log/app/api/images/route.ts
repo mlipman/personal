@@ -1,16 +1,27 @@
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary";
+import { handleImagePost, type ImageUploader } from "@/lib/image-upload";
 
 export const runtime = "nodejs";
-const maxBytes = 10 * 1024 * 1024;
+
+const uploadToCloudinary: ImageUploader = (bytes) => new Promise((resolve, reject) => {
+  const stream = cloudinary.uploader.upload_stream(
+    { folder: "simple-log", resource_type: "image" },
+    (error, uploaded: UploadApiResponse | undefined) => {
+      if (error || !uploaded?.secure_url) {
+        reject(error instanceof Error ? error : new Error("Upload failed"));
+        return;
+      }
+      resolve({ url: uploaded.secure_url });
+    },
+  );
+  stream.end(bytes);
+});
 
 export async function POST(request: Request) {
-  if (!process.env.CLOUDINARY_URL) return Response.json({ error: "Image uploads are not configured yet." }, { status: 503 });
-  const form = await request.formData(); const value = form.get("file");
-  if (!(value instanceof File) || !value.type.startsWith("image/") || value.size > maxBytes) return Response.json({ error: "Choose an image smaller than 10 MB." }, { status: 400 });
-  const bytes = Buffer.from(await value.arrayBuffer());
-  const result = await new Promise<UploadApiResponse>((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream({ folder: "simple-log", resource_type: "image" }, (error, uploaded) => error || !uploaded ? reject(error ?? new Error("Upload failed")) : resolve(uploaded));
-    stream.end(bytes);
-  });
-  return Response.json({ url: result.secure_url });
+  try {
+    if (!process.env.CLOUDINARY_URL) return Response.json({ error: "Image uploads are not configured yet." }, { status: 503 });
+    return await handleImagePost(request, uploadToCloudinary);
+  } catch {
+    return Response.json({ error: "Image upload failed. Try another photo, or take a picture." }, { status: 502 });
+  }
 }

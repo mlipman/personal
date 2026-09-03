@@ -44,13 +44,14 @@ export function SimpleLog({ initialLogs, initialTab = "log" }: { initialLogs: Lo
   async function uploadImage(file: File) {
     setBusy(true); setError(null);
     try {
-      const data = new FormData(); data.append("file", file);
+      const materialized = await materializeImageFile(file);
+      const data = new FormData(); data.append("file", materialized);
       const response = await fetch("/api/images", { method: "POST", body: data });
-      const body: unknown = await response.json();
-      if (!response.ok || !isImageResponse(body)) throw new Error(readError(body));
-      const alt = file.name.replace(/\.[^.]+$/, "") || "image";
+      const body = await readJsonBody(response);
+      if (!response.ok || !isImageResponse(body)) throw new Error(readImageError(body));
+      const alt = materialized.name.replace(/\.[^.]+$/, "") || "image";
       setContext((current) => `${current}${current && !current.endsWith("\n") ? "\n" : ""}![${alt}](${body.url})\n`);
-    } catch (caught) { setError(messageOf(caught)); } finally { setBusy(false); if (fileInput.current) fileInput.current.value = ""; }
+    } catch (caught) { setError(imageUploadMessage(caught)); } finally { setBusy(false); if (fileInput.current) fileInput.current.value = ""; }
   }
 
   async function sendMessage(event: FormEvent) {
@@ -84,3 +85,27 @@ function isChatResponse(value: unknown): value is { message: string } { return i
 function readError(value: unknown): string { return isRecord(value) && typeof value.error === "string" ? value.error : "Something went wrong."; }
 function messageOf(value: unknown): string { return value instanceof Error ? value.message : "Something went wrong."; }
 function formatDate(value: string): string { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(new Date(value)); }
+
+async function materializeImageFile(file: File): Promise<File> {
+  const bytes = await file.arrayBuffer();
+  if (bytes.byteLength === 0) throw new Error("That photo looks empty. Try another photo, or take a picture.");
+  return new File([bytes], file.name || "image", { type: file.type, lastModified: file.lastModified });
+}
+
+async function readJsonBody(response: Response): Promise<unknown> {
+  const text = await response.text();
+  if (!text) return null;
+  try { return JSON.parse(text) as unknown; } catch { return null; }
+}
+
+function readImageError(value: unknown): string {
+  return isRecord(value) && typeof value.error === "string" && value.error.trim() ? value.error : "Image upload failed. Try again, or take a picture.";
+}
+
+function imageUploadMessage(value: unknown): string {
+  if (!(value instanceof Error) || !value.message) return "Image upload failed. Try again, or take a picture.";
+  if (value.name === "SyntaxError" || value.message === "The string did not match the expected pattern.") {
+    return "Image upload failed. Try again, or take a picture.";
+  }
+  return value.message;
+}
