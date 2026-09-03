@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { handleImagePost, maxBytes, sniffImageType } from "./image-upload.ts";
+import {
+  imageUploadCaughtMessage,
+  parseJsonText,
+  readImageUploadError,
+  tooLargeForUploadMessage,
+} from "./image-upload-errors.ts";
 
 const jpegBytes = Uint8Array.from([0xff, 0xd8, 0xff, 0xd9]);
 const pngBytes = Uint8Array.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00]);
@@ -91,3 +97,34 @@ describe("handleImagePost", () => {
     assert.equal((await readJson(junkResponse)).error, "Choose an image file.");
   });
 });
+
+describe("readImageUploadError", () => {
+  it("maps 413 and FUNCTION_PAYLOAD_TOO_LARGE text to a clear message", () => {
+    const vercelBody = "Request Entity Too Large\n\nFUNCTION_PAYLOAD_TOO_LARGE\n";
+    assert.equal(readImageUploadError(413, null, vercelBody), tooLargeForUploadMessage);
+    assert.equal(readImageUploadError(200, null, vercelBody), tooLargeForUploadMessage);
+    assert.doesNotMatch(tooLargeForUploadMessage, /FUNCTION_PAYLOAD_TOO_LARGE/);
+    assert.doesNotMatch(tooLargeForUploadMessage, /Request Entity Too Large/);
+  });
+
+  it("prefers JSON error text and falls back for empty non-JSON bodies", () => {
+    assert.equal(
+      readImageUploadError(400, { error: "That photo is empty. Try another photo, or take a picture." }, "{\"error\":\"That photo is empty. Try another photo, or take a picture.\"}"),
+      "That photo is empty. Try another photo, or take a picture.",
+    );
+    assert.equal(readImageUploadError(500, null, ""), "Image upload failed. Try again, or take a picture.");
+    assert.equal(parseJsonText(vercelPayloadBody()), null);
+  });
+});
+
+describe("imageUploadCaughtMessage", () => {
+  it("never surfaces Safari's empty-JSON SyntaxError string", () => {
+    const safari = new SyntaxError("The string did not match the expected pattern.");
+    assert.equal(imageUploadCaughtMessage(safari), "Image upload failed. Try again, or take a picture.");
+    assert.equal(imageUploadCaughtMessage(new Error("FUNCTION_PAYLOAD_TOO_LARGE")), tooLargeForUploadMessage);
+  });
+});
+
+function vercelPayloadBody(): string {
+  return "Request Entity Too Large\n\nFUNCTION_PAYLOAD_TOO_LARGE\n";
+}

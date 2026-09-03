@@ -5,6 +5,8 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { parseLogContent } from "@/lib/log-content";
+import { compressImageFile } from "@/lib/compress-image";
+import { imageUploadCaughtMessage, parseJsonText, readImageUploadError } from "@/lib/image-upload-errors";
 import { CalendarView } from "./calendar-view";
 
 type LogRecord = { id: string; createdAt: string; context: string };
@@ -45,13 +47,15 @@ export function SimpleLog({ initialLogs, initialTab = "log" }: { initialLogs: Lo
     setBusy(true); setError(null);
     try {
       const materialized = await materializeImageFile(file);
-      const data = new FormData(); data.append("file", materialized);
+      const compressed = await compressImageFile(materialized);
+      const data = new FormData(); data.append("file", compressed);
       const response = await fetch("/api/images", { method: "POST", body: data });
-      const body = await readJsonBody(response);
-      if (!response.ok || !isImageResponse(body)) throw new Error(readImageError(body));
-      const alt = materialized.name.replace(/\.[^.]+$/, "") || "image";
+      const text = await response.text();
+      const body = parseJsonText(text);
+      if (!response.ok || !isImageResponse(body)) throw new Error(readImageUploadError(response.status, body, text));
+      const alt = compressed.name.replace(/\.[^.]+$/, "") || "image";
       setContext((current) => `${current}${current && !current.endsWith("\n") ? "\n" : ""}![${alt}](${body.url})\n`);
-    } catch (caught) { setError(imageUploadMessage(caught)); } finally { setBusy(false); if (fileInput.current) fileInput.current.value = ""; }
+    } catch (caught) { setError(imageUploadCaughtMessage(caught)); } finally { setBusy(false); if (fileInput.current) fileInput.current.value = ""; }
   }
 
   async function sendMessage(event: FormEvent) {
@@ -90,22 +94,4 @@ async function materializeImageFile(file: File): Promise<File> {
   const bytes = await file.arrayBuffer();
   if (bytes.byteLength === 0) throw new Error("That photo looks empty. Try another photo, or take a picture.");
   return new File([bytes], file.name || "image", { type: file.type, lastModified: file.lastModified });
-}
-
-async function readJsonBody(response: Response): Promise<unknown> {
-  const text = await response.text();
-  if (!text) return null;
-  try { return JSON.parse(text) as unknown; } catch { return null; }
-}
-
-function readImageError(value: unknown): string {
-  return isRecord(value) && typeof value.error === "string" && value.error.trim() ? value.error : "Image upload failed. Try again, or take a picture.";
-}
-
-function imageUploadMessage(value: unknown): string {
-  if (!(value instanceof Error) || !value.message) return "Image upload failed. Try again, or take a picture.";
-  if (value.name === "SyntaxError" || value.message === "The string did not match the expected pattern.") {
-    return "Image upload failed. Try again, or take a picture.";
-  }
-  return value.message;
 }
