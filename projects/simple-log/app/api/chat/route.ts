@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { parseChicagoSince } from "@/lib/calendar";
+import { parseChicagoSince, SINCE_CT_PARAM } from "@/lib/calendar";
 import { prisma } from "@/lib/prisma";
 import { stripImages } from "@/lib/log-content";
 
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   if (!process.env.OPENAI_API_KEY) return Response.json({ error: "Chat is not configured yet." }, { status: 503 });
   const body: unknown = await request.json().catch(() => null);
   if (!isRecord(body) || !Array.isArray(body.messages) || !body.messages.every(isMessage)) return Response.json({ error: "A valid chat message is required." }, { status: 400 });
-  const since = typeof body.since === "string" ? parseChicagoSince(body.since) : null;
+  const since = typeof body[SINCE_CT_PARAM] === "string" ? parseChicagoSince(body[SINCE_CT_PARAM]) : null;
   const logs = await prisma.log.findMany({
     where: since ? { createdAt: { gte: since.instant } } : undefined,
     orderBy: { createdAt: "asc" },

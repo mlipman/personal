@@ -9,6 +9,7 @@ import {
   mealBucketForInstant,
   mondayIndex,
   parseChicagoSince,
+  SINCE_CT_PARAM,
   startOfWeekMonday,
   WEEKDAY_LABELS,
 } from "./calendar.ts";
@@ -86,7 +87,11 @@ describe("meal buckets in Chicago local time", () => {
   });
 });
 
-describe("since query as Chicago wall time", () => {
+describe("sinceCT query as Chicago wall time", () => {
+  it("names the URL param sinceCT", () => {
+    assert.equal(SINCE_CT_PARAM, "sinceCT");
+  });
+
   it("converts an unambiguous summer time as CDT", () => {
     const parsed = parseChicagoSince("2026-08-18T12:00:00");
     assert.ok(parsed);

@@ -4,6 +4,7 @@ import { FormEvent, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { SINCE_CT_PARAM } from "@/lib/calendar";
 import { parseLogContent } from "@/lib/log-content";
 import { compressImageFile } from "@/lib/compress-image";
 import { imageUploadCaughtMessage, parseJsonText, readImageUploadError } from "@/lib/image-upload-errors";
@@ -67,8 +68,8 @@ export function SimpleLog({ initialLogs, initialTab = "log", sinceLabel }: { ini
     const next = [...messages, { role: "user", content: prompt } satisfies ChatMessage];
     setMessages(next); setQuestion(""); setBusy(true); setError(null);
     try {
-      const since = new URLSearchParams(window.location.search).get("since");
-      const response = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(since ? { messages: next, since } : { messages: next }) });
+      const sinceCT = new URLSearchParams(window.location.search).get(SINCE_CT_PARAM);
+      const response = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(sinceCT ? { messages: next, sinceCT } : { messages: next }) });
       const body: unknown = await response.json();
       if (!response.ok || !isChatResponse(body)) throw new Error(readError(body));
       setMessages((current) => [...current, { role: "assistant", content: body.message }]);

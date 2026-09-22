@@ -229,8 +229,11 @@ function formatSinceLabel(
   return `${monthName} ${day}, ${year}, ${clock}`;
 }
 
+/** URL query param for a Central Time (America/Chicago) "posts since" cutoff. */
+export const SINCE_CT_PARAM = "sinceCT";
+
 /**
- * Parse a `since` query value as an America/Chicago wall time with no zone suffix.
+ * Parse a `sinceCT` query value as an America/Chicago wall time with no zone suffix.
  * Missing or invalid values, including spring-forward gaps, return null.
  * During the fall-back hour the same clock time occurs twice; the earlier instant (daylight-saving side) is used.
  */
