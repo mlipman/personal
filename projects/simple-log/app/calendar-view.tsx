@@ -32,7 +32,7 @@ const MEAL_LABEL: Record<MealBucket, string> = {
   other: "Other",
 };
 
-export function CalendarView({ logs }: { logs: LogRecord[] }) {
+export function CalendarView({ logs, sinceLabel }: { logs: LogRecord[]; sinceLabel?: string }) {
   const [now] = useState(() => new Date());
   const [open, setOpen] = useState<OpenBucket | null>(null);
   const weeks = useMemo(() => buildCalendarWeeks(logs, now), [logs, now]);
@@ -63,6 +63,7 @@ export function CalendarView({ logs }: { logs: LogRecord[] }) {
         <p className="eyebrow">AMERICA/CHICAGO</p>
         <h1>Calendar</h1>
         <p>Existing posts by Chicago day. Lunch is 11:00am–3:00pm, dinner is 5:00pm–11:00pm; anything else is unlabeled.</p>
+        {sinceLabel ? <p className="since-note">Showing posts on or after {sinceLabel} (America/Chicago).</p> : null}
         <button type="button" className="today-jump" onClick={jumpToToday}>Jump to today</button>
       </div>
       <div className="calendar">

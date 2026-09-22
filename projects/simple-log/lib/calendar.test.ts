@@ -8,6 +8,7 @@ import {
   mealBucket,
   mealBucketForInstant,
   mondayIndex,
+  parseChicagoSince,
   startOfWeekMonday,
   WEEKDAY_LABELS,
 } from "./calendar.ts";
@@ -82,6 +83,66 @@ describe("meal buckets in Chicago local time", () => {
     assert.equal(mealBucket(15, 50), "other");
     assert.equal(mealBucket(23, 3), "other");
     assert.equal(mealBucket(23, 50), "other");
+  });
+});
+
+describe("since query as Chicago wall time", () => {
+  it("converts an unambiguous summer time as CDT", () => {
+    const parsed = parseChicagoSince("2026-08-18T12:00:00");
+    assert.ok(parsed);
+    assert.equal(parsed.instant.toISOString(), "2026-08-18T17:00:00.000Z");
+    assert.equal(parsed.label, "Aug 18, 2026, 12:00 PM");
+    assert.equal(chicagoParts(parsed.instant).hour, 12);
+  });
+
+  it("converts an unambiguous winter time as CST", () => {
+    const parsed = parseChicagoSince("2026-01-15T12:00");
+    assert.ok(parsed);
+    assert.equal(parsed.instant.toISOString(), "2026-01-15T18:00:00.000Z");
+    assert.equal(chicagoParts(parsed.instant).hour, 12);
+  });
+
+  it("uses the earlier instant when the fall-back hour repeats", () => {
+    const earlier = "2025-11-02T06:30:00.000Z";
+    const later = "2025-11-02T07:30:00.000Z";
+    assert.equal(chicagoParts(earlier).hour, 1);
+    assert.equal(chicagoParts(earlier).minute, 30);
+    assert.equal(chicagoParts(later).hour, 1);
+    assert.equal(chicagoParts(later).minute, 30);
+
+    const parsed = parseChicagoSince("2025-11-02T01:30:00");
+    assert.equal(parsed?.instant.toISOString(), earlier);
+    assert.notEqual(parsed?.instant.toISOString(), later);
+    assert.equal(parsed?.label, "Nov 2, 2025, 1:30 AM");
+
+    const onTheHour = parseChicagoSince("2025-11-02 01:00:00");
+    assert.equal(onTheHour?.instant.toISOString(), "2025-11-02T06:00:00.000Z");
+  });
+
+  it("keeps the 2026 fall-back hour on the daylight-saving instant", () => {
+    const parsed = parseChicagoSince("2026-11-01T01:30:00.000");
+    assert.equal(parsed?.instant.toISOString(), "2026-11-01T06:30:00.000Z");
+  });
+
+  it("accepts a time after the clocks have fallen back", () => {
+    const parsed = parseChicagoSince("2025-11-02T02:00:00");
+    assert.equal(parsed?.instant.toISOString(), "2025-11-02T08:00:00.000Z");
+  });
+
+  it("returns null for the spring-forward gap and other invalid values", () => {
+    assert.equal(parseChicagoSince("2025-03-09T02:30:00"), null);
+    assert.equal(parseChicagoSince("2025-03-09T03:00:00")?.instant.toISOString(), "2025-03-09T08:00:00.000Z");
+    assert.equal(parseChicagoSince("2025-03-09T01:30:00")?.instant.toISOString(), "2025-03-09T07:30:00.000Z");
+    assert.equal(parseChicagoSince(undefined), null);
+    assert.equal(parseChicagoSince(null), null);
+    assert.equal(parseChicagoSince(""), null);
+    assert.equal(parseChicagoSince("   "), null);
+    assert.equal(parseChicagoSince("2025-11-02"), null);
+    assert.equal(parseChicagoSince("2025-11-02T01:30:00Z"), null);
+    assert.equal(parseChicagoSince("2025-11-02T01:30:00-05:00"), null);
+    assert.equal(parseChicagoSince("2025-02-31T01:30:00"), null);
+    assert.equal(parseChicagoSince("2025-11-02T25:30:00"), null);
+    assert.equal(parseChicagoSince("not-a-date"), null);
   });
 });
 
