@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { parseChicagoSince, SINCE_CT_PARAM } from "@/lib/calendar";
 import { prisma } from "@/lib/prisma";
 import { stripImages } from "@/lib/log-content";
 
@@ -8,7 +9,12 @@ export async function POST(request: Request) {
   if (!process.env.OPENAI_API_KEY) return Response.json({ error: "Chat is not configured yet." }, { status: 503 });
   const body: unknown = await request.json().catch(() => null);
   if (!isRecord(body) || !Array.isArray(body.messages) || !body.messages.every(isMessage)) return Response.json({ error: "A valid chat message is required." }, { status: 400 });
-  const logs = await prisma.log.findMany({ orderBy: { createdAt: "asc" }, select: { createdAt: true, context: true } });
+  const since = typeof body[SINCE_CT_PARAM] === "string" ? parseChicagoSince(body[SINCE_CT_PARAM]) : null;
+  const logs = await prisma.log.findMany({
+    where: since ? { createdAt: { gte: since.instant } } : undefined,
+    orderBy: { createdAt: "asc" },
+    select: { createdAt: true, context: true },
+  });
   const logContext = logs.map((log) => `[${formatLogDate(log.createdAt)}]\n${stripImages(log.context)}`).filter((value) => value.trim()).join("\n\n---\n\n");
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await openai.responses.create({ model: "gpt-5.6-luna", instructions: " LOGS:\n" + logContext, input: body.messages });

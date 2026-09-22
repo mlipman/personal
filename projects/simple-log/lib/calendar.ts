@@ -186,3 +186,77 @@ export function formatDayHeading(date: CivilDate): string {
   const weekday = WEEKDAY_LABELS[mondayIndex(date)] ?? "Day";
   return `${weekday} ${monthLabel(date)} ${date.day}`;
 }
+
+const SINCE_LOCAL_DATETIME =
+  /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?$/;
+
+const SINCE_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] as const;
+
+export type ChicagoSince = {
+  /** Absolute instant for the Chicago wall time. Ambiguous fall-back times use the earlier instant. */
+  instant: Date;
+  /** Wall-clock label in America/Chicago, matching the input clock time. */
+  label: string;
+};
+
+function isValidCivilDate(year: number, month: number, day: number): boolean {
+  const probe = new Date(Date.UTC(year, month - 1, day));
+  return probe.getUTCFullYear() === year && probe.getUTCMonth() === month - 1 && probe.getUTCDate() === day;
+}
+
+function padMilliseconds(fraction: string | undefined): number {
+  if (!fraction) return 0;
+  return Number(fraction.padEnd(3, "0"));
+}
+
+function formatSinceLabel(
+  year: number,
+  month: number,
+  day: number,
+  hour: number,
+  minute: number,
+  second: number,
+  millisecond: number,
+): string {
+  const monthName = SINCE_MONTHS[month - 1] ?? "???";
+  const period = hour >= 12 ? "PM" : "AM";
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  const minuteText = String(minute).padStart(2, "0");
+  const fraction = millisecond === 0 ? "" : `.${String(millisecond).padStart(3, "0")}`;
+  const clock = second === 0 && millisecond === 0
+    ? `${hour12}:${minuteText} ${period}`
+    : `${hour12}:${minuteText}:${String(second).padStart(2, "0")}${fraction} ${period}`;
+  return `${monthName} ${day}, ${year}, ${clock}`;
+}
+
+/** URL query param for a Central Time (America/Chicago) "posts since" cutoff. */
+export const SINCE_CT_PARAM = "sinceCT";
+
+/**
+ * Parse a `sinceCT` query value as an America/Chicago wall time with no zone suffix.
+ * Missing or invalid values, including spring-forward gaps, return null.
+ * During the fall-back hour the same clock time occurs twice; the earlier instant (daylight-saving side) is used.
+ */
+export function parseChicagoSince(value: string | null | undefined): ChicagoSince | null {
+  if (typeof value !== "string") return null;
+  const match = SINCE_LOCAL_DATETIME.exec(value.trim());
+  if (!match) return null;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const hour = Number(match[4]);
+  const minute = Number(match[5]);
+  const second = match[6] === undefined ? 0 : Number(match[6]);
+  const millisecond = padMilliseconds(match[7]);
+  if (month < 1 || month > 12 || hour > 23 || minute > 59 || second > 59 || !isValidCivilDate(year, month, day)) return null;
+
+  // UTC-5 is earlier than UTC-6 for the same wall clock, so the first match is the conservative fall-back instant.
+  for (const offsetHours of [5, 6]) {
+    const instant = new Date(Date.UTC(year, month - 1, day, hour + offsetHours, minute, second, millisecond));
+    const parts = chicagoParts(instant);
+    if (parts.year === year && parts.month === month && parts.day === day && parts.hour === hour && parts.minute === minute) {
+      return { instant, label: formatSinceLabel(year, month, day, hour, minute, second, millisecond) };
+    }
+  }
+  return null;
+}
